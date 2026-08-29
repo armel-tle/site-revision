@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titre %}Révision Terminale{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="conteneur">
+            <a href="{{ url_for('index') }}" class="logo">📚 RévisionTle</a>
+            <div class="liens-nav">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('tableau_de_bord') }}">Tableau de bord</a>
+                    <a href="{{ url_for('liste_groupes') }}">Groupes</a>
+                    <a href="{{ url_for('deconnexion') }}">Déconnexion</a>
+                {% else %}
+                    <a href="{{ url_for('connexion') }}">Connexion</a>
+                    <a href="{{ url_for('inscription') }}" class="bouton-nav">Inscription</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main class="conteneur">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="messages-flash">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block contenu %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>RévisionTle — Plateforme de révision pour les élèves en Terminale au Cameroun</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titre %}{{ groupe['nom'] }}{% endblock %}
+{% block contenu %}
+<section>
+    <h2>{{ groupe['nom'] }}</h2>
+    <p class="badge-matiere">{{ groupe['matiere'] }}</p>
+    <p>{{ groupe['description'] or "" }}</p>
+
+    {% if not est_membre %}
+        <p>Tu n'es pas encore membre de ce groupe.</p>
+        <a href="{{ url_for('rejoindre_groupe', groupe_id=groupe['id']) }}" class="bouton bouton-principal">Rejoindre le groupe</a>
+    {% else %}
+        <div class="zone-chat">
+            <div id="messages" class="messages-liste"></div>
+
+            <form id="formulaire-message" class="formulaire-chat">
+                <input type="text" id="contenu-message" placeholder="Écris ton message..." required>
+                <button type="submit" class="bouton bouton-principal">Envoyer</button>
+            </form>
+        </div>
+
+        <script>
+            const groupeId = {{ groupe['id'] }};
+        </script>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+    {% endif %}
+</section>
+{% endblock %}

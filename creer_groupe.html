@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titre %}Créer un groupe{% endblock %}
+{% block contenu %}
+<section class="formulaire-conteneur">
+    <h2>Créer un groupe d'étude</h2>
+    <form method="POST" class="formulaire">
+        <label for="nom">Nom du groupe</label>
+        <input type="text" id="nom" name="nom" placeholder="Ex: Révision Maths - Terminale D" required>
+
+        <label for="matiere">Matière</label>
+        <select id="matiere" name="matiere" required>
+            <option value="">-- Choisir --</option>
+            {% for m in matieres %}
+                <option value="{{ m }}">{{ m }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="description">Description (optionnel)</label>
+        <textarea id="description" name="description" rows="3" placeholder="Objectif du groupe, rythme des révisions..."></textarea>
+
+        <button type="submit" class="bouton bouton-principal">Créer le groupe</button>
+    </form>
+</section>
+{% endblock %}

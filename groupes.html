@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block titre %}Groupes d'étude{% endblock %}
+{% block contenu %}
+<section>
+    <h2>Groupes d'étude</h2>
+
+    <div class="filtre-matiere">
+        <a href="{{ url_for('liste_groupes') }}" class="{{ 'actif' if not matiere_filtre else '' }}">Toutes</a>
+        {% for m in matieres %}
+            <a href="{{ url_for('liste_groupes', matiere=m) }}" class="{{ 'actif' if matiere_filtre == m else '' }}">{{ m }}</a>
+        {% endfor %}
+    </div>
+
+    {% if groupes %}
+        <div class="grille-groupes">
+            {% for g in groupes %}
+                <a href="{{ url_for('voir_groupe', groupe_id=g['id']) }}" class="carte-groupe">
+                    <h4>{{ g['nom'] }}</h4>
+                    <p class="badge-matiere">{{ g['matiere'] }}</p>
+                    <p>{{ g['description'] or "Pas de description." }}</p>
+                    <p class="nb-membres">{{ g['nb_membres'] }} membre(s)</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucun groupe pour le moment. Sois le premier à en créer un !</p>
+    {% endif %}
+
+    <a href="{{ url_for('creer_groupe') }}" class="bouton bouton-principal">Créer un groupe</a>
+</section>
+{% endblock %}

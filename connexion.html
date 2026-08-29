@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block titre %}Connexion - RévisionTle{% endblock %}
+{% block contenu %}
+<section class="formulaire-conteneur">
+    <h2>Connexion</h2>
+    <form method="POST" class="formulaire">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="mot_de_passe">Mot de passe</label>
+        <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+
+        <button type="submit" class="bouton bouton-principal">Se connecter</button>
+    </form>
+
+    <p>Pas encore de compte ? <a href="{{ url_for('inscription') }}">S'inscrire</a></p>
+</section>
+{% endblock %}

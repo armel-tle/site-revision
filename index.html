@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block titre %}Accueil - RévisionTle{% endblock %}
+{% block contenu %}
+<section class="accueil-hero">
+    <h1>Réussis ton BAC avec l'aide de tes camarades</h1>
+    <p>Rejoins des groupes d'étude par matière, révise ensemble, et prépare ton BAC efficacement.</p>
+    <p class="info-securite">Réservé aux élèves de Terminale (17 ans minimum).</p>
+    {% if not connecte %}
+        <div class="boutons-hero">
+            <a href="{{ url_for('inscription') }}" class="bouton bouton-principal">S'inscrire</a>
+            <a href="{{ url_for('connexion') }}" class="bouton">Se connecter</a>
+        </div>
+    {% else %}
+        <a href="{{ url_for('tableau_de_bord') }}" class="bouton bouton-principal">Aller au tableau de bord</a>
+    {% endif %}
+</section>
+
+<section class="fonctionnalites">
+    <div class="carte">
+        <h3>👥 Groupes d'étude</h3>
+        <p>Crée ou rejoins un groupe par matière : Maths, Physique, Français, et plus.</p>
+    </div>
+    <div class="carte">
+        <h3>💬 Chat de groupe</h3>
+        <p>Discute et échange avec les membres de ton groupe pour avancer ensemble.</p>
+    </div>
+    <div class="carte">
+        <h3>🔒 Espace sécurisé</h3>
+        <p>Pas de messages privés entre inconnus. Vérification classe et âge à l'inscription.</p>
+    </div>
+</section>
+{% endblock %}

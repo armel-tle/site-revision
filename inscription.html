@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block titre %}Inscription - RévisionTle{% endblock %}
+{% block contenu %}
+<section class="formulaire-conteneur">
+    <h2>Inscription</h2>
+    <p class="info-securite">Ce site est réservé aux élèves en classe de Terminale, âgés de 17 ans minimum.</p>
+
+    <form method="POST" class="formulaire">
+        <label for="nom">Nom complet</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="mot_de_passe">Mot de passe (6 caractères minimum)</label>
+        <input type="password" id="mot_de_passe" name="mot_de_passe" minlength="6" required>
+
+        <label for="classe">Classe</label>
+        <select id="classe" name="classe" required>
+            <option value="">-- Choisir --</option>
+            <option value="Terminale">Terminale</option>
+            <option value="autre">Autre (non admis)</option>
+        </select>
+
+        <label for="age">Âge</label>
+        <input type="number" id="age" name="age" min="1" max="99" required>
+
+        <label for="ecole">Établissement scolaire</label>
+        <input type="text" id="ecole" name="ecole" required>
+
+        <button type="submit" class="bouton bouton-principal">S'inscrire</button>
+    </form>
+
+    <p>Déjà inscrit ? <a href="{{ url_for('connexion') }}">Se connecter</a></p>
+</section>
+{% endblock %}
