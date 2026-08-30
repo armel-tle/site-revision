@@ -10,6 +10,14 @@
         <p>Tu n'es pas encore membre de ce groupe.</p>
         <a href="{{ url_for('rejoindre_groupe', groupe_id=groupe['id']) }}" class="bouton bouton-principal">Rejoindre le groupe</a>
     {% else %}
+        <p><a href="{{ url_for('voir_fiches', groupe_id=groupe['id']) }}" class="bouton">📎 Voir les fiches de révision</a></p>
+
+        {% if peut_supprimer %}
+            <form method="POST" action="{{ url_for('supprimer_groupe', groupe_id=groupe['id']) }}" onsubmit="return confirm('Supprimer définitivement ce groupe et tous ses messages/fiches ?');" style="margin-bottom: 16px;">
+                <button type="submit" class="bouton" style="background:#fce8e8; color:#d9534f; border-color:#d9534f;">🗑️ Supprimer ce groupe</button>
+            </form>
+        {% endif %}
+
         <div class="zone-chat">
             <div id="messages" class="messages-liste"></div>
 
