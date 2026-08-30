@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, send_file
+import io
 import sqlite3
 import os
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = "change-cette-cle-secrete-avant-la-mise-en-ligne"
+app.secret_key = os.environ.get("SECRET_KEY", "change-cette-cle-secrete-avant-la-mise-en-ligne")
 DB_PATH = os.path.join(os.path.dirname(__file__), "revision.db")
 
 MATIERES = ["Mathématiques", "Physique", "Chimie", "SVT", "Français",
@@ -59,6 +60,17 @@ def init_db():
         date_envoi TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS fiches (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        groupe_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        nom_fichier TEXT NOT NULL,
+        type_fichier TEXT NOT NULL,
+        contenu BLOB NOT NULL,
+        taille INTEGER NOT NULL,
+        date_ajout TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS signalements (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         signale_par INTEGER NOT NULL,
@@ -76,6 +88,11 @@ def init_db():
 
 def utilisateur_connecte():
     return session.get("user_id") is not None
+
+
+def est_administrateur():
+    email_admin = os.environ.get("ADMIN_EMAIL", "")
+    return session.get("email", "").lower() == email_admin.lower() and email_admin != ""
 
 
 # ---------- Pages publiques ----------
@@ -100,8 +117,8 @@ def inscription():
         if not nom or not email or not mot_de_passe or not ecole:
             erreurs.append("Merci de remplir tous les champs.")
 
-        if classe != "Terminale":
-            erreurs.append("Ce site est réservé aux élèves en classe de Terminale.")
+        if classe not in ["Premiere", "Terminale"]:
+            erreurs.append("Ce site est réservé aux élèves en classe de Première ou Terminale.")
 
         try:
             age_int = int(age)
@@ -151,6 +168,7 @@ def connexion():
         if user and check_password_hash(user["mot_de_passe"], mot_de_passe):
             session["user_id"] = user["id"]
             session["nom"] = user["nom"]
+            session["email"] = user["email"]
             return redirect(url_for("tableau_de_bord"))
         else:
             flash("Email ou mot de passe incorrect.")
@@ -270,7 +288,146 @@ def voir_groupe(groupe_id):
     if not groupe:
         return "Groupe introuvable", 404
 
-    return render_template("groupe.html", groupe=groupe, est_membre=est_membre is not None)
+    peut_supprimer = est_administrateur() or (groupe["createur_id"] == session["user_id"])
+
+    return render_template("groupe.html", groupe=groupe, est_membre=est_membre is not None, peut_supprimer=peut_supprimer)
+
+
+@app.route("/groupes/<int:groupe_id>/supprimer", methods=["POST"])
+def supprimer_groupe(groupe_id):
+    if not utilisateur_connecte():
+        return redirect(url_for("connexion"))
+
+    conn = get_db()
+    groupe = conn.execute("SELECT * FROM groupes WHERE id = ?", (groupe_id,)).fetchone()
+
+    if not groupe:
+        conn.close()
+        return "Groupe introuvable", 404
+
+    if not (est_administrateur() or groupe["createur_id"] == session["user_id"]):
+        conn.close()
+        return "Accès refusé", 403
+
+    conn.execute("DELETE FROM messages WHERE groupe_id = ?", (groupe_id,))
+    conn.execute("DELETE FROM fiches WHERE groupe_id = ?", (groupe_id,))
+    conn.execute("DELETE FROM membres_groupe WHERE groupe_id = ?", (groupe_id,))
+    conn.execute("DELETE FROM groupes WHERE id = ?", (groupe_id,))
+    conn.commit()
+    conn.close()
+
+    flash("Groupe supprimé.")
+    return redirect(url_for("liste_groupes"))
+
+
+# ---------- Fiches de révision ----------
+
+EXTENSIONS_AUTORISEES = {"pdf", "doc", "docx", "txt", "png", "jpg", "jpeg"}
+TAILLE_MAX_FICHE = 5 * 1024 * 1024  # 5 Mo max par fiche
+
+
+def extension_autorisee(nom_fichier):
+    return "." in nom_fichier and nom_fichier.rsplit(".", 1)[1].lower() in EXTENSIONS_AUTORISEES
+
+
+@app.route("/groupes/<int:groupe_id>/fiches")
+def voir_fiches(groupe_id):
+    if not utilisateur_connecte():
+        return redirect(url_for("connexion"))
+
+    conn = get_db()
+    groupe = conn.execute("SELECT * FROM groupes WHERE id = ?", (groupe_id,)).fetchone()
+    est_membre = conn.execute(
+        "SELECT * FROM membres_groupe WHERE groupe_id = ? AND user_id = ?",
+        (groupe_id, session["user_id"])
+    ).fetchone()
+
+    if not est_membre:
+        conn.close()
+        return redirect(url_for("voir_groupe", groupe_id=groupe_id))
+
+    fiches = conn.execute("""
+        SELECT f.id, f.nom_fichier, f.taille, f.date_ajout, u.nom
+        FROM fiches f JOIN users u ON f.user_id = u.id
+        WHERE f.groupe_id = ?
+        ORDER BY f.date_ajout DESC
+    """, (groupe_id,)).fetchall()
+    conn.close()
+
+    return render_template("fiches.html", groupe=groupe, fiches=fiches)
+
+
+@app.route("/groupes/<int:groupe_id>/fiches/ajouter", methods=["POST"])
+def ajouter_fiche(groupe_id):
+    if not utilisateur_connecte():
+        return redirect(url_for("connexion"))
+
+    conn = get_db()
+    est_membre = conn.execute(
+        "SELECT * FROM membres_groupe WHERE groupe_id = ? AND user_id = ?",
+        (groupe_id, session["user_id"])
+    ).fetchone()
+    if not est_membre:
+        conn.close()
+        return redirect(url_for("voir_groupe", groupe_id=groupe_id))
+
+    fichier = request.files.get("fichier")
+
+    if not fichier or fichier.filename == "":
+        flash("Merci de choisir un fichier.")
+        conn.close()
+        return redirect(url_for("voir_fiches", groupe_id=groupe_id))
+
+    if not extension_autorisee(fichier.filename):
+        flash("Type de fichier non autorisé. Utilise PDF, Word, image ou texte.")
+        conn.close()
+        return redirect(url_for("voir_fiches", groupe_id=groupe_id))
+
+    contenu = fichier.read()
+    if len(contenu) > TAILLE_MAX_FICHE:
+        flash("Fichier trop volumineux (5 Mo maximum).")
+        conn.close()
+        return redirect(url_for("voir_fiches", groupe_id=groupe_id))
+
+    extension = fichier.filename.rsplit(".", 1)[1].lower()
+
+    conn.execute(
+        "INSERT INTO fiches (groupe_id, user_id, nom_fichier, type_fichier, contenu, taille, date_ajout) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (groupe_id, session["user_id"], fichier.filename, extension, contenu, len(contenu), datetime.now().isoformat())
+    )
+    conn.commit()
+    conn.close()
+
+    flash("Fiche ajoutée avec succès.")
+    return redirect(url_for("voir_fiches", groupe_id=groupe_id))
+
+
+@app.route("/fiches/<int:fiche_id>/telecharger")
+def telecharger_fiche(fiche_id):
+    if not utilisateur_connecte():
+        return redirect(url_for("connexion"))
+
+    conn = get_db()
+    fiche = conn.execute("SELECT * FROM fiches WHERE id = ?", (fiche_id,)).fetchone()
+
+    if not fiche:
+        conn.close()
+        return "Fiche introuvable", 404
+
+    est_membre = conn.execute(
+        "SELECT * FROM membres_groupe WHERE groupe_id = ? AND user_id = ?",
+        (fiche["groupe_id"], session["user_id"])
+    ).fetchone()
+    conn.close()
+
+    if not est_membre:
+        return "Accès refusé", 403
+
+    return send_file(
+        io.BytesIO(fiche["contenu"]),
+        download_name=fiche["nom_fichier"],
+        as_attachment=True
+    )
 
 
 # ---------- API du chat (polling toutes les quelques secondes en JS) ----------
@@ -346,6 +503,9 @@ def api_signaler():
     return jsonify({"succes": True})
 
 
+init_db()
+
 if __name__ == "__main__":
-    init_db()
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    debug_mode = os.environ.get("FLASK_DEBUG", "true").lower() == "true"
+    app.run(debug=debug_mode, host="0.0.0.0", port=port)
