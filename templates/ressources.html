@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block titre %}Fiches de révision{% endblock %}
+{% block contenu %}
+<section>
+    <h2>📚 Bibliothèque de fiches de révision</h2>
+    <p>Cours et exercices classés par matière et par série (A, C, D, TI).</p>
+
+    <div class="filtre-matiere">
+        <a href="{{ url_for('liste_ressources') }}" class="{{ 'actif' if not matiere_filtre and not serie_filtre else '' }}">Toutes</a>
+        {% for m in matieres %}
+            <a href="{{ url_for('liste_ressources', matiere=m, serie=serie_filtre) }}" class="{{ 'actif' if matiere_filtre == m else '' }}">{{ m }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="filtre-matiere">
+        <a href="{{ url_for('liste_ressources', matiere=matiere_filtre) }}" class="{{ 'actif' if not serie_filtre else '' }}">Toutes séries</a>
+        {% for s in series %}
+            <a href="{{ url_for('liste_ressources', matiere=matiere_filtre, serie=s) }}" class="{{ 'actif' if serie_filtre == s else '' }}">Série {{ s }}</a>
+        {% endfor %}
+    </div>
+
+    {% if ressources %}
+        <div class="grille-groupes">
+            {% for r in ressources %}
+                <a href="{{ url_for('voir_ressource', id_ressource=r['id']) }}" class="carte-groupe">
+                    <h4>{{ r['titre'] }}</h4>
+                    <p class="badge-matiere">{{ r['matiere'] }} — {{ r['sequence'] }}</p>
+                    <p class="nb-membres">{{ r['type'] }} — Séries : {{ r['series'] | join(', ') }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucune fiche ne correspond à ce filtre pour le moment.</p>
+    {% endif %}
+</section>
+{% endblock %}
