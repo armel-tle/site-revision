@@ -26,6 +26,13 @@
         {% endfor %}
     </div>
 
+    <div class="filtre-matiere">
+        <a href="{{ url_for('liste_ressources', matiere=matiere_filtre, serie=serie_filtre, classe=classe_filtre) }}" class="{{ 'actif' if not type_filtre else '' }}">Tous types</a>
+        {% for t in types %}
+            <a href="{{ url_for('liste_ressources', matiere=matiere_filtre, serie=serie_filtre, classe=classe_filtre, type=t) }}" class="{{ 'actif' if type_filtre == t else '' }}">{{ t }}</a>
+        {% endfor %}
+    </div>
+
     {% if ressources %}
         <div class="grille-groupes">
             {% for r in ressources %}
