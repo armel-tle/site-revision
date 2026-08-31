@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block titre %}{{ ressource['titre'] }}{% endblock %}
+{% block contenu %}
+<section>
+    <p><a href="{{ url_for('liste_ressources') }}">← Retour aux fiches</a></p>
+    <h2>{{ ressource['titre'] }}</h2>
+    <p class="badge-matiere">{{ ressource['matiere'] }} — {{ ressource['classe'] }} — {{ ressource['sequence'] }} — {{ ressource['type'] }}</p>
+    <p class="info-securite">Séries concernées : {{ ressource['series'] | join(', ') }}</p>
+
+    <div class="contenu-fiche">
+        {{ ressource['contenu'] | safe }}
+    </div>
+</section>
+{% endblock %}
