@@ -4,6 +4,7 @@ import sqlite3
 import os
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from ressources_data import RESSOURCES, MATIERES_RESSOURCES, SERIES_RESSOURCES
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "change-cette-cle-secrete-avant-la-mise-en-ligne")
@@ -321,6 +322,42 @@ def supprimer_groupe(groupe_id):
 
 
 # ---------- Fiches de révision ----------
+
+@app.route("/ressources")
+def liste_ressources():
+    if not utilisateur_connecte():
+        return redirect(url_for("connexion"))
+
+    matiere_filtre = request.args.get("matiere", "")
+    serie_filtre = request.args.get("serie", "")
+
+    ressources = RESSOURCES
+    if matiere_filtre:
+        ressources = [r for r in ressources if r["matiere"] == matiere_filtre]
+    if serie_filtre:
+        ressources = [r for r in ressources if serie_filtre in r["series"]]
+
+    return render_template(
+        "ressources.html",
+        ressources=ressources,
+        matieres=MATIERES_RESSOURCES,
+        series=SERIES_RESSOURCES,
+        matiere_filtre=matiere_filtre,
+        serie_filtre=serie_filtre
+    )
+
+
+@app.route("/ressources/<id_ressource>")
+def voir_ressource(id_ressource):
+    if not utilisateur_connecte():
+        return redirect(url_for("connexion"))
+
+    ressource = next((r for r in RESSOURCES if r["id"] == id_ressource), None)
+    if not ressource:
+        return "Fiche introuvable", 404
+
+    return render_template("ressource_detail.html", ressource=ressource)
+
 
 EXTENSIONS_AUTORISEES = {"pdf", "doc", "docx", "txt", "png", "jpg", "jpeg"}
 TAILLE_MAX_FICHE = 5 * 1024 * 1024  # 5 Mo max par fiche
