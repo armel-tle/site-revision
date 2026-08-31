@@ -4,7 +4,7 @@ import sqlite3
 import os
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from ressources_data import RESSOURCES, MATIERES_RESSOURCES, SERIES_RESSOURCES
+from ressources_data import RESSOURCES, MATIERES_RESSOURCES, SERIES_RESSOURCES, CLASSES_RESSOURCES, TYPES_RESSOURCES
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "change-cette-cle-secrete-avant-la-mise-en-ligne")
@@ -289,9 +289,11 @@ def voir_groupe(groupe_id):
     if not groupe:
         return "Groupe introuvable", 404
 
-    peut_supprimer = est_administrateur() or (groupe["createur_id"] == session["user_id"])
+    admin = est_administrateur()
+    acces_complet = (est_membre is not None) or admin
+    peut_supprimer = admin or (groupe["createur_id"] == session["user_id"])
 
-    return render_template("groupe.html", groupe=groupe, est_membre=est_membre is not None, peut_supprimer=peut_supprimer)
+    return render_template("groupe.html", groupe=groupe, est_membre=acces_complet, peut_supprimer=peut_supprimer)
 
 
 @app.route("/groupes/<int:groupe_id>/supprimer", methods=["POST"])
@@ -323,6 +325,11 @@ def supprimer_groupe(groupe_id):
 
 # ---------- Fiches de révision ----------
 
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+
 @app.route("/ressources")
 def liste_ressources():
     if not utilisateur_connecte():
@@ -330,20 +337,30 @@ def liste_ressources():
 
     matiere_filtre = request.args.get("matiere", "")
     serie_filtre = request.args.get("serie", "")
+    classe_filtre = request.args.get("classe", "")
+    type_filtre = request.args.get("type", "")
 
     ressources = RESSOURCES
     if matiere_filtre:
         ressources = [r for r in ressources if r["matiere"] == matiere_filtre]
     if serie_filtre:
         ressources = [r for r in ressources if serie_filtre in r["series"]]
+    if classe_filtre:
+        ressources = [r for r in ressources if r["classe"] == classe_filtre]
+    if type_filtre:
+        ressources = [r for r in ressources if r["type"] == type_filtre]
 
     return render_template(
         "ressources.html",
         ressources=ressources,
         matieres=MATIERES_RESSOURCES,
         series=SERIES_RESSOURCES,
+        classes=CLASSES_RESSOURCES,
+        types=TYPES_RESSOURCES,
         matiere_filtre=matiere_filtre,
-        serie_filtre=serie_filtre
+        serie_filtre=serie_filtre,
+        classe_filtre=classe_filtre,
+        type_filtre=type_filtre
     )
 
 
@@ -379,7 +396,7 @@ def voir_fiches(groupe_id):
         (groupe_id, session["user_id"])
     ).fetchone()
 
-    if not est_membre:
+    if not est_membre and not est_administrateur():
         conn.close()
         return redirect(url_for("voir_groupe", groupe_id=groupe_id))
 
@@ -404,7 +421,7 @@ def ajouter_fiche(groupe_id):
         "SELECT * FROM membres_groupe WHERE groupe_id = ? AND user_id = ?",
         (groupe_id, session["user_id"])
     ).fetchone()
-    if not est_membre:
+    if not est_membre and not est_administrateur():
         conn.close()
         return redirect(url_for("voir_groupe", groupe_id=groupe_id))
 
@@ -457,7 +474,7 @@ def telecharger_fiche(fiche_id):
     ).fetchone()
     conn.close()
 
-    if not est_membre:
+    if not est_membre and not est_administrateur():
         return "Accès refusé", 403
 
     return send_file(
@@ -479,7 +496,7 @@ def api_messages(groupe_id):
         "SELECT * FROM membres_groupe WHERE groupe_id = ? AND user_id = ?",
         (groupe_id, session["user_id"])
     ).fetchone()
-    if not est_membre:
+    if not est_membre and not est_administrateur():
         conn.close()
         return jsonify({"erreur": "tu dois rejoindre le groupe"}), 403
 
@@ -509,7 +526,7 @@ def api_envoyer_message(groupe_id):
         "SELECT * FROM membres_groupe WHERE groupe_id = ? AND user_id = ?",
         (groupe_id, session["user_id"])
     ).fetchone()
-    if not est_membre:
+    if not est_membre and not est_administrateur():
         conn.close()
         return jsonify({"erreur": "tu dois rejoindre le groupe"}), 403
 
