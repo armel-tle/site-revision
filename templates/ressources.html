@@ -6,16 +6,23 @@
     <p>Cours et exercices classés par matière et par série (A, C, D, TI).</p>
 
     <div class="filtre-matiere">
-        <a href="{{ url_for('liste_ressources') }}" class="{{ 'actif' if not matiere_filtre and not serie_filtre else '' }}">Toutes</a>
+        <a href="{{ url_for('liste_ressources', serie=serie_filtre, classe=classe_filtre) }}" class="{{ 'actif' if not matiere_filtre else '' }}">Toutes matières</a>
         {% for m in matieres %}
-            <a href="{{ url_for('liste_ressources', matiere=m, serie=serie_filtre) }}" class="{{ 'actif' if matiere_filtre == m else '' }}">{{ m }}</a>
+            <a href="{{ url_for('liste_ressources', matiere=m, serie=serie_filtre, classe=classe_filtre) }}" class="{{ 'actif' if matiere_filtre == m else '' }}">{{ m }}</a>
         {% endfor %}
     </div>
 
     <div class="filtre-matiere">
-        <a href="{{ url_for('liste_ressources', matiere=matiere_filtre) }}" class="{{ 'actif' if not serie_filtre else '' }}">Toutes séries</a>
+        <a href="{{ url_for('liste_ressources', matiere=matiere_filtre, serie=serie_filtre) }}" class="{{ 'actif' if not classe_filtre else '' }}">Toutes classes</a>
+        {% for c in classes %}
+            <a href="{{ url_for('liste_ressources', matiere=matiere_filtre, serie=serie_filtre, classe=c) }}" class="{{ 'actif' if classe_filtre == c else '' }}">{{ c }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="filtre-matiere">
+        <a href="{{ url_for('liste_ressources', matiere=matiere_filtre, classe=classe_filtre) }}" class="{{ 'actif' if not serie_filtre else '' }}">Toutes séries</a>
         {% for s in series %}
-            <a href="{{ url_for('liste_ressources', matiere=matiere_filtre, serie=s) }}" class="{{ 'actif' if serie_filtre == s else '' }}">Série {{ s }}</a>
+            <a href="{{ url_for('liste_ressources', matiere=matiere_filtre, classe=classe_filtre, serie=s) }}" class="{{ 'actif' if serie_filtre == s else '' }}">Série {{ s }}</a>
         {% endfor %}
     </div>
 
@@ -24,7 +31,7 @@
             {% for r in ressources %}
                 <a href="{{ url_for('voir_ressource', id_ressource=r['id']) }}" class="carte-groupe">
                     <h4>{{ r['titre'] }}</h4>
-                    <p class="badge-matiere">{{ r['matiere'] }} — {{ r['sequence'] }}</p>
+                    <p class="badge-matiere">{{ r['matiere'] }} — {{ r['classe'] }} — {{ r['sequence'] }}</p>
                     <p class="nb-membres">{{ r['type'] }} — Séries : {{ r['series'] | join(', ') }}</p>
                 </a>
             {% endfor %}
