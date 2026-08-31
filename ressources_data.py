@@ -6,6 +6,7 @@ RESSOURCES = [
     {
         "id": "maths-complexes-cours",
         "matiere": "Mathématiques",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 1",
         "titre": "Nombres complexes — Cours",
@@ -35,6 +36,7 @@ RESSOURCES = [
     {
         "id": "maths-complexes-exercices",
         "matiere": "Mathématiques",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 1",
         "titre": "Nombres complexes — Exercices",
@@ -63,6 +65,7 @@ Ex3/4 : à traiter en groupe — poste ta démarche dans le chat pour vérificat
     {
         "id": "maths-primitives-cours",
         "matiere": "Mathématiques",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 2",
         "titre": "Primitives et intégrales — Cours",
@@ -90,6 +93,7 @@ Ex3/4 : à traiter en groupe — poste ta démarche dans le chat pour vérificat
     {
         "id": "maths-primitives-exercices",
         "matiere": "Mathématiques",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 2",
         "titre": "Primitives et intégrales — Exercices",
@@ -116,6 +120,7 @@ Ex3/4 : à résoudre en groupe et comparer vos méthodes dans le chat.</p>
     {
         "id": "maths-probabilites-cours",
         "matiere": "Mathématiques",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 3",
         "titre": "Probabilités — Cours",
@@ -143,6 +148,7 @@ Ex3/4 : à résoudre en groupe et comparer vos méthodes dans le chat.</p>
     {
         "id": "maths-probabilites-exercices",
         "matiere": "Mathématiques",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 3",
         "titre": "Probabilités — Exercices",
@@ -166,6 +172,7 @@ Ex3 : à traiter en groupe (loi hypergéométrique) — discute ta démarche ave
     {
         "id": "physique-mecanique-cours",
         "matiere": "Physique",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 1",
         "titre": "Mécanique — Lois de Newton — Cours",
@@ -193,6 +200,7 @@ Ex3 : à traiter en groupe (loi hypergéométrique) — discute ta démarche ave
     {
         "id": "physique-mecanique-exercices",
         "matiere": "Physique",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 1",
         "titre": "Mécanique — Lois de Newton — Exercices",
@@ -216,6 +224,7 @@ Ex3 : a = g·sin(30°) = 5 m/s², puis v² = 2a·d = 2×5×4 = 40, v ≈ 6,3 m/s
     {
         "id": "physique-electricite-cours",
         "matiere": "Physique",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 2",
         "titre": "Électricité — Circuit RC — Cours",
@@ -243,6 +252,7 @@ Ex3 : a = g·sin(30°) = 5 m/s², puis v² = 2a·d = 2×5×4 = 40, v ≈ 6,3 m/s
     {
         "id": "physique-electricite-exercices",
         "matiere": "Physique",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 2",
         "titre": "Électricité — Circuit RC — Exercices",
@@ -266,6 +276,7 @@ Ex3 : à démontrer en groupe par dérivation et substitution.</p>
     {
         "id": "chimie-oxydoreduction-cours",
         "matiere": "Chimie",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 1",
         "titre": "Oxydoréduction — Cours",
@@ -293,6 +304,7 @@ Ex3 : à démontrer en groupe par dérivation et substitution.</p>
     {
         "id": "chimie-oxydoreduction-exercices",
         "matiere": "Chimie",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 1",
         "titre": "Oxydoréduction — Exercices",
@@ -316,6 +328,7 @@ Ex3 : E = 0,34 - (-0,76) = 1,10 V. La cathode est l'électrode de cuivre (potent
     {
         "id": "chimie-cinetique-cours",
         "matiere": "Chimie",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 2",
         "titre": "Cinétique chimique — Cours",
@@ -343,6 +356,7 @@ Ex3 : E = 0,34 - (-0,76) = 1,10 V. La cathode est l'électrode de cuivre (potent
     {
         "id": "chimie-cinetique-exercices",
         "matiere": "Chimie",
+        "classe": "Terminale",
         "series": ["C", "D", "TI"],
         "sequence": "Séquence 2",
         "titre": "Cinétique chimique — Exercices",
@@ -363,7 +377,268 @@ Ex2 : 0,4 mol/L (la moitié de la concentration initiale).<br>
 Ex3 : tracer la tangente à la courbe au point d'abscisse t₁, la vitesse est l'opposé du coefficient directeur de cette tangente.</p>
 """
     },
+    {
+        "id": "maths-suites-cours",
+        "matiere": "Mathématiques",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 1",
+        "titre": "Suites numériques — Cours",
+        "type": "Cours",
+        "contenu": """
+<h3>1. Définition d'une suite</h3>
+<p>Une suite numérique (uₙ) est une fonction définie sur ℕ (ou une partie de ℕ) à valeurs dans ℝ. On note uₙ le terme de rang n.</p>
+
+<h3>2. Suite arithmétique</h3>
+<p>(uₙ) est arithmétique de raison r si uₙ₊₁ = uₙ + r pour tout n. Terme général : uₙ = u₀ + nr. Somme des n premiers termes : Sₙ = n×(u₀ + uₙ₋₁)/2.</p>
+
+<h3>3. Suite géométrique</h3>
+<p>(uₙ) est géométrique de raison q si uₙ₊₁ = q×uₙ pour tout n. Terme général : uₙ = u₀×qⁿ. Somme : Sₙ = u₀×(1-qⁿ)/(1-q) si q ≠ 1.</p>
+
+<h3>4. Sens de variation</h3>
+<p>Une suite est croissante si uₙ₊₁ ≥ uₙ pour tout n, décroissante si uₙ₊₁ ≤ uₙ. On étudie souvent le signe de uₙ₊₁ - uₙ.</p>
+
+<h3>5. Raisonnement par récurrence (niveau C approfondi)</h3>
+<p>Pour démontrer une propriété P(n) pour tout n ≥ n₀ : 1) Initialisation : vérifier P(n₀). 2) Hérédité : montrer que si P(n) est vraie, alors P(n+1) l'est aussi. 3) Conclure par le principe de récurrence.</p>
+
+<h3>Point d'attention série C</h3>
+<p>La série C insiste davantage sur le raisonnement par récurrence et les suites définies par une relation plus complexe (uₙ₊₁ = f(uₙ)).</p>
+"""
+    },
+    {
+        "id": "maths-suites-exercices",
+        "matiere": "Mathématiques",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 1",
+        "titre": "Suites numériques — Exercices",
+        "type": "Exercices",
+        "contenu": """
+<h3>Exercice 1 (Niveau D / TI)</h3>
+<p>Soit (uₙ) une suite arithmétique de premier terme u₀ = 5 et de raison r = 3. Calculer u₁₀, puis la somme S = u₀ + u₁ + ... + u₁₀.</p>
+
+<h3>Exercice 2 (Niveau D / TI)</h3>
+<p>Soit (vₙ) une suite géométrique de premier terme v₀ = 2 et de raison q = 3. Calculer v₅.</p>
+
+<h3>Exercice 3 (Niveau C — plus difficile)</h3>
+<p>Soit (uₙ) définie par u₀ = 1 et uₙ₊₁ = 2uₙ + 1. Démontrer par récurrence que uₙ = 2ⁿ⁺¹ - 1 pour tout n ≥ 0.</p>
+
+<h3>Corrigés indicatifs</h3>
+<p>Ex1 : u₁₀ = 5 + 10×3 = 35. S = 11×(5+35)/2 = 220.<br>
+Ex2 : v₅ = 2×3⁵ = 486.<br>
+Ex3 : à démontrer en groupe (initialisation n=0, puis hérédité).</p>
+"""
+    },
+    {
+        "id": "maths-derivation-cours",
+        "matiere": "Mathématiques",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 2",
+        "titre": "Dérivation — Cours",
+        "type": "Cours",
+        "contenu": """
+<h3>1. Nombre dérivé</h3>
+<p>Le nombre dérivé de f en a est f'(a) = lim (h→0) [f(a+h) - f(a)] / h, s'il existe. Il représente le coefficient directeur de la tangente à la courbe au point d'abscisse a.</p>
+
+<h3>2. Fonction dérivée</h3>
+<p>Si f est dérivable en tout point d'un intervalle I, on définit la fonction dérivée f' sur I.</p>
+
+<h3>3. Dérivées usuelles</h3>
+<p>(xⁿ)' = nxⁿ⁻¹ ; (1/x)' = -1/x² ; (√x)' = 1/(2√x) ; (eˣ)' = eˣ.</p>
+
+<h3>4. Opérations sur les dérivées</h3>
+<p>(u+v)' = u'+v' ; (uv)' = u'v+uv' ; (u/v)' = (u'v-uv')/v² ; (u∘v)' = v'×u'(v) (dérivée composée).</p>
+
+<h3>5. Application : sens de variation</h3>
+<p>Si f'(x) &gt; 0 sur I, f est strictement croissante sur I. Si f'(x) &lt; 0, f est strictement décroissante. Si f'(x) = 0, f a un extremum local.</p>
+
+<h3>Point d'attention série C</h3>
+<p>La série C exige la maîtrise complète de la dérivée composée et son utilisation dans l'étude de fonctions plus complexes (racines, exponentielles combinées).</p>
+"""
+    },
+    {
+        "id": "maths-derivation-exercices",
+        "matiere": "Mathématiques",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 2",
+        "titre": "Dérivation — Exercices",
+        "type": "Exercices",
+        "contenu": """
+<h3>Exercice 1 (Niveau D / TI)</h3>
+<p>Calculer la dérivée de f(x) = 3x² - 5x + 2.</p>
+
+<h3>Exercice 2 (Niveau D / TI)</h3>
+<p>Calculer la dérivée de f(x) = (2x+1)/(x-3) sur son domaine de définition.</p>
+
+<h3>Exercice 3 (Niveau C — plus difficile)</h3>
+<p>Calculer la dérivée de f(x) = √(x²+1), puis étudier le sens de variation de f sur ℝ.</p>
+
+<h3>Corrigés indicatifs</h3>
+<p>Ex1 : f'(x) = 6x - 5.<br>
+Ex2 : f'(x) = [(2)(x-3) - (2x+1)(1)] / (x-3)² = -7/(x-3)².<br>
+Ex3 : f'(x) = x/√(x²+1) — à finir en groupe (étudier le signe de f').</p>
+"""
+    },
+    {
+        "id": "maths-vecteurs-cours",
+        "matiere": "Mathématiques",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 3",
+        "titre": "Vecteurs et produit scalaire — Cours",
+        "type": "Cours",
+        "contenu": """
+<h3>1. Vecteurs du plan</h3>
+<p>Un vecteur AB⃗ est caractérisé par sa direction, son sens et sa norme ‖AB⃗‖. Deux vecteurs sont égaux s'ils ont même direction, même sens et même norme.</p>
+
+<h3>2. Coordonnées d'un vecteur</h3>
+<p>Si A(xₐ, yₐ) et B(x_B, y_B), alors AB⃗(x_B - xₐ ; y_B - yₐ).</p>
+
+<h3>3. Produit scalaire — définition</h3>
+<p>u⃗·v⃗ = ‖u⃗‖×‖v⃗‖×cos(u⃗,v⃗). En coordonnées : u⃗(x;y)·v⃗(x';y') = xx' + yy'.</p>
+
+<h3>4. Propriétés du produit scalaire</h3>
+<p>u⃗·v⃗ = v⃗·u⃗ (symétrie). u⃗·u⃗ = ‖u⃗‖². u⃗·v⃗ = 0 si et seulement si u⃗ et v⃗ sont orthogonaux.</p>
+
+<h3>5. Applications (niveau C approfondi)</h3>
+<p>Le produit scalaire permet de calculer des angles (cos θ = u⃗·v⃗ / (‖u⃗‖‖v⃗‖)), de démontrer des orthogonalités, et d'établir des équations de droites/cercles.</p>
+
+<h3>Point d'attention série C</h3>
+<p>La série C combine souvent produit scalaire et démonstrations géométriques (théorème de la médiane, relations métriques dans le triangle).</p>
+"""
+    },
+    {
+        "id": "maths-vecteurs-exercices",
+        "matiere": "Mathématiques",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 3",
+        "titre": "Vecteurs et produit scalaire — Exercices",
+        "type": "Exercices",
+        "contenu": """
+<h3>Exercice 1 (Niveau D / TI)</h3>
+<p>Soit A(1;2) et B(4;6). Calculer les coordonnées de AB⃗ et sa norme.</p>
+
+<h3>Exercice 2 (Niveau D / TI)</h3>
+<p>Soit u⃗(2;3) et v⃗(-1;4). Calculer u⃗·v⃗. Les vecteurs sont-ils orthogonaux ?</p>
+
+<h3>Exercice 3 (Niveau C — plus difficile)</h3>
+<p>Dans un triangle ABC, démontrer à l'aide du produit scalaire que : BC² = AB² + AC² - 2×AB×AC×cos(Â) (théorème d'Al-Kashi).</p>
+
+<h3>Corrigés indicatifs</h3>
+<p>Ex1 : AB⃗(3;4), ‖AB⃗‖ = 5.<br>
+Ex2 : u⃗·v⃗ = 2×(-1) + 3×4 = 10, non nul donc pas orthogonaux.<br>
+Ex3 : à démontrer en groupe en écrivant BC⃗ = AC⃗ - AB⃗ puis en développant BC⃗·BC⃗.</p>
+"""
+    },
+    {
+        "id": "physique-mouvement-cours",
+        "matiere": "Physique",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 1",
+        "titre": "Cinématique du mouvement — Cours",
+        "type": "Cours",
+        "contenu": """
+<h3>1. Référentiel et trajectoire</h3>
+<p>Le mouvement d'un point est toujours décrit par rapport à un référentiel. La trajectoire est l'ensemble des positions successives du point.</p>
+
+<h3>2. Vitesse moyenne et instantanée</h3>
+<p>Vitesse moyenne : v_moy = distance parcourue / durée. Vitesse instantanée : v(t) = dx/dt (dérivée de la position par rapport au temps).</p>
+
+<h3>3. Mouvement rectiligne uniforme (MRU)</h3>
+<p>La vitesse est constante. x(t) = x₀ + v×t.</p>
+
+<h3>4. Mouvement rectiligne uniformément varié (MRUV)</h3>
+<p>L'accélération est constante. v(t) = v₀ + a×t. x(t) = x₀ + v₀t + ½at².</p>
+
+<h3>5. Mouvement circulaire (niveau C approfondi)</h3>
+<p>Vitesse angulaire ω = dθ/dt. Vitesse linéaire v = R×ω. Accélération centripète a = v²/R, dirigée vers le centre.</p>
+
+<h3>Point d'attention série C</h3>
+<p>La série C traite plus en profondeur le mouvement circulaire et les changements de référentiel, avec davantage de rigueur vectorielle.</p>
+"""
+    },
+    {
+        "id": "physique-mouvement-exercices",
+        "matiere": "Physique",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 1",
+        "titre": "Cinématique du mouvement — Exercices",
+        "type": "Exercices",
+        "contenu": """
+<h3>Exercice 1 (Niveau D / TI)</h3>
+<p>Une voiture parcourt 150 km en 2 heures à vitesse constante. Calculer sa vitesse moyenne en km/h puis en m/s.</p>
+
+<h3>Exercice 2 (Niveau D / TI)</h3>
+<p>Un mobile part sans vitesse initiale avec une accélération constante de 2 m/s². Calculer sa vitesse et sa position après 5 secondes.</p>
+
+<h3>Exercice 3 (Niveau C — plus difficile)</h3>
+<p>Un point mobile décrit un cercle de rayon 0,5 m à une vitesse angulaire constante de 4 rad/s. Calculer sa vitesse linéaire et son accélération centripète.</p>
+
+<h3>Corrigés indicatifs</h3>
+<p>Ex1 : v = 150/2 = 75 km/h ≈ 20,8 m/s.<br>
+Ex2 : v(5) = 2×5 = 10 m/s. x(5) = ½×2×25 = 25 m.<br>
+Ex3 : v = R×ω = 0,5×4 = 2 m/s. a = v²/R = 4/0,5 = 8 m/s².</p>
+"""
+    },
+    {
+        "id": "chimie-atome-cours",
+        "matiere": "Chimie",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 1",
+        "titre": "Structure de l'atome — Cours",
+        "type": "Cours",
+        "contenu": """
+<h3>1. Constitution de l'atome</h3>
+<p>Un atome est composé d'un noyau (protons chargés +, neutrons neutres) entouré d'électrons (charge -). Le nombre de protons Z est le numéro atomique.</p>
+
+<h3>2. Nombre de masse</h3>
+<p>A = Z + N, où N est le nombre de neutrons. On note un atome ᴬ_Z X.</p>
+
+<h3>3. Isotopes</h3>
+<p>Deux atomes sont isotopes s'ils ont le même Z mais un nombre de neutrons N différent (donc un A différent).</p>
+
+<h3>4. Structure électronique</h3>
+<p>Les électrons se répartissent en couches (K, L, M...) selon des règles précises : K (2 électrons max), L (8 électrons max), M (8 ou 18 selon le cas).</p>
+
+<h3>5. La mole et nombre d'Avogadro</h3>
+<p>Une mole contient N_A = 6,02×10²³ entités. La masse molaire M (g/mol) permet de convertir masse et quantité de matière : n = m/M.</p>
+
+<h3>Point d'attention série C</h3>
+<p>La série C demande une maîtrise plus poussée de la configuration électronique complète et son lien avec la position dans le tableau périodique.</p>
+"""
+    },
+    {
+        "id": "chimie-atome-exercices",
+        "matiere": "Chimie",
+        "classe": "Premiere",
+        "series": ["C", "D", "TI"],
+        "sequence": "Séquence 1",
+        "titre": "Structure de l'atome — Exercices",
+        "type": "Exercices",
+        "contenu": """
+<h3>Exercice 1 (Niveau D / TI)</h3>
+<p>Un atome de sodium a Z = 11 et A = 23. Déterminer le nombre de protons, neutrons et électrons.</p>
+
+<h3>Exercice 2 (Niveau D / TI)</h3>
+<p>Calculer la quantité de matière (en mol) contenue dans 36 g d'eau (M(H₂O) = 18 g/mol).</p>
+
+<h3>Exercice 3 (Niveau C — plus difficile)</h3>
+<p>Donner la structure électronique complète de l'atome de chlore (Z = 17) en couches K, L, M, et déterminer le nombre d'électrons de valence.</p>
+
+<h3>Corrigés indicatifs</h3>
+<p>Ex1 : 11 protons, 23-11=12 neutrons, 11 électrons (atome neutre).<br>
+Ex2 : n = m/M = 36/18 = 2 mol.<br>
+Ex3 : K(2) L(8) M(7) — 7 électrons de valence.</p>
+"""
+    },
 ]
 
 MATIERES_RESSOURCES = sorted(set(r["matiere"] for r in RESSOURCES))
 SERIES_RESSOURCES = ["A", "C", "D", "TI"]
+CLASSES_RESSOURCES = ["Premiere", "Terminale"]
