@@ -14,6 +14,7 @@
                 {% if session.get('user_id') %}
                     <a href="{{ url_for('tableau_de_bord') }}">Tableau de bord</a>
                     <a href="{{ url_for('liste_groupes') }}">Groupes</a>
+                    <a href="{{url_for('liste_ressources')}}">Fiches de révision</a>
                     <a href="{{ url_for('deconnexion') }}">Déconnexion</a>
                 {% else %}
                     <a href="{{ url_for('connexion') }}">Connexion</a>
