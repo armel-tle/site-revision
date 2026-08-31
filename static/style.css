@@ -311,6 +311,84 @@ footer {
     color: #888;
 }
 
+/* ---------- Responsive mobile ---------- */
+@media (max-width: 640px) {
+    header nav {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .liens-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+        width: 100%;
+    }
+
+    .liens-nav a {
+        margin-left: 0;
+        font-size: 0.85rem;
+    }
+
+    main {
+        padding: 20px 14px;
+    }
+
+    .accueil-hero h1 {
+        font-size: 1.4rem;
+    }
+
+    .boutons-hero {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .fonctionnalites, .grille-groupes {
+        grid-template-columns: 1fr;
+    }
+
+    .formulaire-conteneur {
+        padding: 18px;
+        max-width: 100%;
+    }
+
+    .zone-chat {
+        padding: 10px;
+    }
+
+    .messages-liste {
+        height: 260px;
+    }
+
+    .formulaire-chat {
+        flex-direction: column;
+    }
+
+    .formulaire-chat button {
+        width: 100%;
+    }
+
+    .carte-fiche {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filtre-matiere {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 6px;
+    }
+
+    .filtre-matiere a {
+        flex-shrink: 0;
+    }
+
+    .contenu-fiche {
+        padding: 16px;
+    }
+}
+
 .contenu-fiche {
     background: #fff;
     padding: 24px;
